@@ -8,13 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import service.AdminService;
+import service.PostService;
 @WebServlet(urlPatterns = "/deletePost")
 public class DeletePostServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response)throws IOException, ServletException{
 		int deletedId = Integer.parseInt(request.getParameter("deletedId"));
-		new AdminService().delete(deletedId);
+		new PostService().delete(deletedId);
 
 		response.sendRedirect("./");
 	}

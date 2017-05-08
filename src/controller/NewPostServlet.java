@@ -29,7 +29,8 @@ public class NewPostServlet extends HttpServlet{
 		HttpSession session = request.getSession();
 
 		List<String> messages = new ArrayList<String>();
-
+		List<String> categories = new PostService().getCategories();
+		request.setAttribute("selectCategories", categories);
 		if(isValid(request, messages) == true){
 			User user = (User) session.getAttribute("loginUser");
 			Post post = new Post();
@@ -40,12 +41,14 @@ public class NewPostServlet extends HttpServlet{
 			post.setCategory(request.getParameter("category"));
 			post.setUserId(user.getId());
 
+
+
 			new PostService().register(post);
 			response.sendRedirect("./");
 
 		} else {
 			session.setAttribute("errorMessages", messages);
-			response.sendRedirect("newPost");
+			request.getRequestDispatcher("newpost.jsp").forward(request, response);
 		}
 	}
 

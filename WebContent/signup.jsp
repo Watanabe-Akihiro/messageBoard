@@ -36,15 +36,24 @@
 	<input name = "name" value = "${signupUser.name }"/>(10字以内)<br/>
 
 	<label for = "branchId">支店</label>
-	<input name = "branchId" value = "${signupUser.branchId}" />(当ユーザーの所属する支店IDを入力してください)<br/>
+	<select name="branchId" size = "1">
+		<c:forEach items = "${branches}" var = "branch">
+			<option value="${branch.id}"><c:out value = "${branch.name}"/></option>
+		</c:forEach>
+	</select><br/>
 
 	<label for = "departmentId">部署</label>
-	<input name = "departmentId" value = "${signupUser.departmentId }" >(当ユーザーの所属する部署IDを入力してください))<br/>
+	<select name="departmentId" size = "1">
+		<c:forEach items = "${departments}" var = "department">
+			<option value="${department.id}"><c:out value = "${department.name}"/></option>
+		</c:forEach>
+	</select><br/>
 
 	<input type = "submit" value = "登録"/><br/>
 	<a href = "admin">戻る</a>
 
 </form>
+
 </div>
 </body>
 </html>

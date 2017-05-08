@@ -1,9 +1,10 @@
 package beans;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class UserPost {
-
+public class UserPost implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private int branchId;
 	private int departmentId;
@@ -46,7 +47,7 @@ public class UserPost {
 	}
 
 	public void setUserId(int userId){
-		this.id = userId;
+		this.userId = userId;
 	}
 
 	public String getName() {

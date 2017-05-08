@@ -24,13 +24,13 @@
 	<div class = "form-area">
 		<form action = "newPost" method = "post">
 
-		<label for = "title">件名</label>
+		<label for = "title">件名(50字以内):</label>
 		<input name = "title"><br/>
 
-		<label for = "text">本文</label>
+		<label for = "text">本文(1000字以内):</label>
 		<textarea name = "text" cols ="50" rows = "10" class = "post-box"></textarea><br/>
 
-		<label for = "category">カテゴリー</label>
+		<label for = "category">カテゴリー(10字以内):</label>
 		<input name = "category"><br/>
 
 		<input type = "submit" value = "投稿">

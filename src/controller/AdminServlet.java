@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,7 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import beans.User;
 import service.AdminService;
@@ -21,17 +19,8 @@ public class AdminServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response)throws IOException, ServletException{
 
-		HttpSession session = request.getSession();
-
 		List<User> allUsers = new AdminService().getUsers();
-
-		if(allUsers != null){
-			request.setAttribute("allUsers", allUsers);
-		} else {
-			List<String> messages = new ArrayList<String>();
-			messages.add("ユーザーが存在しません");
-			session.setAttribute("errorMessages", messages);
-		}
+		request.setAttribute("allUsers", allUsers);
 
 		request.getRequestDispatcher("admin.jsp").forward(request, response);
 
@@ -46,6 +35,7 @@ public class AdminServlet extends HttpServlet{
 
 		response.sendRedirect("admin");
 	}
+
 
 
 }

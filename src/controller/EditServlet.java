@@ -39,26 +39,32 @@ public class EditServlet extends HttpServlet{
 			user.setLoginId(request.getParameter("loginId"));
 			user.setPassword(request.getParameter("password"));
 			user.setName(request.getParameter("name"));
-			user.setBranchId(Integer.parseInt(request.getParameter("branchId")));
-			user.setDepartmentId(Integer.parseInt(request.getParameter("departmentId")));
+			user.setBranchId(request.getParameter("branchId"));
+			user.setDepartmentId(request.getParameter("departmentId"));
+			if(request.getParameter("password").length() == 0){
 
+				/*User editedUser = new AdminService().getUser(user.getId());
+				String formerPassword = editedUser.getPassword();
+
+				user.setPassword(formerPassword);*/
+			}
 			new UserService().update(user);
-
+			System.out.println(user.getPassword());
 
 			String validationMessage = (String)user.getName() + "のユーザー情報は正常に更新されました";
 			session.setAttribute("validationMessage", validationMessage);
-			request.getRequestDispatcher("updated.jsp").forward(request, response);
+			response.sendRedirect("admin");
 
 		} else {
 			user.setLoginId(request.getParameter("loginId"));
 			user.setName(request.getParameter("name"));
-			user.setBranchId(Integer.parseInt(request.getParameter("branchId")));
-			user.setDepartmentId(Integer.parseInt(request.getParameter("departmentId")));
+			user.setBranchId(request.getParameter("branchId"));
+			user.setDepartmentId(request.getParameter("departmentId"));
 
 			request.setAttribute("user", user);
 
 			session.setAttribute("errorMassages", messages);
-			request.getRequestDispatcher("updated.jsp").forward(request, response);
+			response.sendRedirect("admin");
 		}
 
 	}
@@ -70,7 +76,6 @@ public class EditServlet extends HttpServlet{
 		String passwordConfirmation = request.getParameter("passwordConfirmation");
 		String name = request.getParameter("name");
 
-
 		if(!password.equals(passwordConfirmation)){
 			messages.add("パスワードが一致しません");
 		}
@@ -78,7 +83,7 @@ public class EditServlet extends HttpServlet{
 		if(loginId.length() >=20 ||  loginId.length() < 6 || !loginId.matches("[0-9a-zA-Z_]+$")){
 			messages.add("不正なログインIDです");
 		}
-		if(password.length() >= 255 || password.length() < 6 || !password.matches("[ -~｡-ﾟ]+$")){
+		if(password.length() >= 255 ||  (password.length() < 6 && password.length() > 0)){
 			messages.add("不正なパスワードです");
 		}
 		if(name.length() >= 10){

@@ -45,6 +45,8 @@ public class PostDao {
 			}
 	}
 
+
+
 	public void delete(Connection connection, int deletedId){
 		PreparedStatement ps = null;
 		try{
@@ -59,4 +61,6 @@ public class PostDao {
 			close(ps);
 		}
 	}
+
+
 }

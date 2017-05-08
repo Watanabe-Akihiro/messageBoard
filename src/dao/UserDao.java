@@ -38,8 +38,8 @@ public class UserDao {
 
 			ps = connection.prepareStatement(sql.toString());
 			ps.setString(1, user.getLoginId());
-			ps.setInt(2, user.getBranchId());
-			ps.setInt(3, user.getDepartmentId());
+			ps.setString(2, user.getBranchId());
+			ps.setString(3, user.getDepartmentId());
 			ps.setString(4, user.getPassword());
 			ps.setString(5, user.getName());
 			ps.setInt(6, user.getIsActivated());
@@ -87,8 +87,23 @@ public class UserDao {
 	public List<User> getAllUsers(Connection connection){
 		PreparedStatement ps = null;
 		try{
-			String sql = "SELECT * FROM users";
-			ps = connection.prepareStatement(sql);
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT");
+			sql.append(" users.id");
+			sql.append(", users.login_id");
+			sql.append(", branches.name AS branch_id");
+			sql.append(", departments.name AS department_id");
+			sql.append(", users.password");
+			sql.append(", users.name");
+			sql.append(", is_activated");
+			sql.append(" FROM users");
+			sql.append(" INNER JOIN branches ON");
+			sql.append(" branch_id = branches.id");
+			sql.append(" INNER JOIN departments ON");
+			sql.append(" department_id = departments.id");
+
+
+			ps = connection.prepareStatement(sql.toString());
 			ResultSet rs = ps.executeQuery();
 
 			List<User> userList = toUserList(rs);
@@ -171,14 +186,13 @@ public class UserDao {
 			ps = connection.prepareStatement(sql.toString());
 
 			ps.setString(1, user.getLoginId());
-			ps.setInt(2, user.getBranchId());
-			ps.setInt(3, user.getDepartmentId());
+			ps.setString(2, user.getBranchId());
+			ps.setString(3, user.getDepartmentId());
 			ps.setString(4, user.getPassword());
 			ps.setString(5, user.getName());
 			ps.setInt(6, user.getId());
 			ps.executeUpdate();
 
-			System.out.println(ps.toString());
 		}  catch (SQLException e) {
 			throw new SQLRuntimeException(e);
 		} finally{
@@ -192,9 +206,9 @@ public class UserDao {
 
 			while(rs.next()){
 				int id = rs.getInt("id");
-				int branchId = rs.getInt("branch_id");
+				String branchId = rs.getString("branch_id");
 				int isActivated = rs.getInt("is_activated");
-				int departmentId = rs.getInt("department_id");
+				String departmentId = rs.getString("department_id");
 				String loginId = rs.getString("login_id");
 				String password = rs.getString("password");
 				String name = rs.getString("name");

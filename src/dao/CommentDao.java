@@ -30,8 +30,8 @@ public class CommentDao {
 
 			ps = connection.prepareStatement(sql.toString());
 
-			ps.setInt(2, comment.getPostId());
-			ps.setInt(1, comment.getUserId());
+			ps.setInt(1, comment.getPostId());
+			ps.setInt(2, comment.getUserId());
 			ps.setString(3, comment.getText());
 
 			ps.executeUpdate();
@@ -41,6 +41,21 @@ public class CommentDao {
 			} finally{
 				close(ps);
 			}
+	}
+
+	public void deleteComment(Connection connection, int deletedId){
+		PreparedStatement ps = null;
+		try{
+			String sql = "DELETE FROM comments WHERE id = ?";
+			ps = connection.prepareStatement(sql);
+			ps.setInt(1,  deletedId);
+
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally{
+			close(ps);
+		}
 	}
 
 

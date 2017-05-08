@@ -40,24 +40,30 @@
 <div class = "header">
 <a href = "signup">新規ユーザー登録</a>
 </div>
-<c:if test = "${not empty errorMessages}">
-	<div class = "errorMessages">
-		<ul>
-			<c:forEach items = "${errorMessages}" var = "message">
-				<li><c:out value = "${message}"/>
-			</c:forEach>
-		</ul>
-	</div>
-	<c:remove var = "errorMessages" scope = "session"/>
-</c:if>
+	<c:if test = "${not empty errorMassages}">
+		<div class ="errorMassages">
+			<ul>
+				<c:forEach items = "${errorMassages}" var = "message">
+					<li><c:out value = "${message}"/>
+				</c:forEach>
+			</ul>
+		</div>
+	<c:remove var = "errorMassages" scope = "session"/>
+	</c:if>
+	<c:if test = "${empty errorMassages}">
+		<div class ="validationMessage">
+			<p><c:out value = "${validationMessage}"/></p>
+		</div>
+	<c:remove var = "validationMessage" scope = "session"/>
+	</c:if>
 
 <table border = "2">
 
 	<tr>
 		<th>ログインID</th>
 		<th>ユーザー名</th>
-		<th>支店番号</th>
-		<th>部署番号</th>
+		<th>支店</th>
+		<th>部署</th>
 		<th>編集</th>
 		<th>状態の変更</th>
 		<th>ユーザーの削除</th>

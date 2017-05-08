@@ -7,8 +7,8 @@ public class User implements Serializable{
 
 	private int id;
 	private String loginId;
-	private int branchId;
-	private int departmentId;
+	private String branchId;
+	private String departmentId;
 	private String password;
 	private String name;
 	private int isActivated;
@@ -37,11 +37,11 @@ public class User implements Serializable{
 		this.name = name;
 	}
 
-	public int getBranchId() {
+	public String getBranchId() {
 		return branchId;
 	}
 
-	public void setBranchId(int branchId) {
+	public void setBranchId(String branchId) {
 		this.branchId = branchId;
 	}
 
@@ -53,11 +53,11 @@ public class User implements Serializable{
 		this.password = password;
 	}
 
-	public int getDepartmentId() {
+	public String getDepartmentId() {
 		return departmentId;
 	}
 
-	public void setDepartmentId(int departmentId) {
+	public void setDepartmentId(String departmentId) {
 		this.departmentId = departmentId;
 	}
 

@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.Branch;
+import beans.Department;
 import beans.User;
+import service.TitleService;
 import service.UserService;
 
 @WebServlet(urlPatterns = {"/signup"})
@@ -20,7 +23,17 @@ public class SignupServlet extends HttpServlet{
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException{
+		HttpSession session = request.getSession();
+
+		List<Branch> branches = new TitleService().getBranches();
+		List<Department> departments = new TitleService().getDepartments();
+
+		session.setAttribute("branches", branches);
+		session.setAttribute("departments", departments);
+
 		request.getRequestDispatcher("signup.jsp").forward(request, response);
+
+
 	}
 
 	protected void doPost(HttpServletRequest request,
@@ -35,8 +48,8 @@ public class SignupServlet extends HttpServlet{
 			user.setLoginId(request.getParameter("loginId"));
 			user.setPassword(request.getParameter("password"));
 			user.setName(request.getParameter("name"));
-			user.setBranchId(Integer.parseInt(request.getParameter("branchId")));
-			user.setDepartmentId(Integer.parseInt(request.getParameter("departmentId")));
+			user.setBranchId(request.getParameter("branchId"));
+			user.setDepartmentId(request.getParameter("departmentId"));
 
 			new UserService().register(user);
 
@@ -44,8 +57,8 @@ public class SignupServlet extends HttpServlet{
 		} else{
 			user.setLoginId(request.getParameter("loginId"));
 			user.setName(request.getParameter("name"));
-			user.setBranchId(Integer.parseInt(request.getParameter("branchId")));
-			user.setDepartmentId(Integer.parseInt(request.getParameter("departmentId")));
+			user.setBranchId(request.getParameter("branchId"));
+			user.setDepartmentId(request.getParameter("departmentId"));
 
 			request.setAttribute("signupUser", user);
 
@@ -59,6 +72,8 @@ public class SignupServlet extends HttpServlet{
 		String password = request.getParameter("password");
 		String passwordConfirmation = request.getParameter("passwordConfirmation");
 		String name = request.getParameter("name");
+		int branchId = Integer.parseInt(request.getParameter("branchId"));
+		int departmentId = Integer.parseInt(request.getParameter("departmentId"));
 
 		if(!password.equals(passwordConfirmation)){
 			messages.add("パスワードが一致しません");
@@ -71,8 +86,19 @@ public class SignupServlet extends HttpServlet{
 			messages.add("不正なログインIDです");
 		}
 
+		if(name.length() == 0){
+			messages.add("名前を入力してください");
+		}
+
 		if(name.length() >= 10){
 			messages.add("名前は10字以下です");
+		}
+
+		if(branchId == 1 && departmentId >= 2){
+			messages.add("存在しない部署です");
+		}
+		if(branchId != 1 && departmentId <=2){
+			messages.add("存在しない部署です");
 		}
 		if(messages.size() == 0){
 			return true;
