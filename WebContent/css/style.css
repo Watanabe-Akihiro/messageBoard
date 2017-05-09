@@ -1,0 +1,64 @@
+@CHARSET "UTF-8";
+
+body{
+	background-color: ghostwhite;
+}
+
+.post{
+    background-color: white;
+    margin-top: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 1px 1px 1px;
+    width: 650px;
+}
+
+.comment{
+    margin-top: 10px;
+    width: 500px;
+    margin-bottom: 10px;
+    background-color: white;
+    box-shadow: 1px 1px 1px;
+    border-radius: 5px;
+    padding:8px;
+}
+.title{
+	margin-bottom:20px
+}
+.name{
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+
+.text{
+	margin-bottom: 20px;
+}
+
+.category{
+	margin-bottom: 5px;
+}
+
+.date{
+
+}
+
+.comments-form{
+	margin-top:10px;
+	margin-bottom: 50px;
+}
+
+
+.errorMassages ul{
+	list-style: none;
+	color:red;
+}
+
+
+label[for = "title"]{
+	margin-left:20px;
+}
+
+label[for = "category"]{
+	margin-left:22px;
+}
