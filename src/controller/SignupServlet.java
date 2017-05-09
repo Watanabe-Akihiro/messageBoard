@@ -94,10 +94,10 @@ public class SignupServlet extends HttpServlet{
 			messages.add("名前は10字以下です");
 		}
 
-		if(branchId == 1 && departmentId >= 2){
+		if(branchId == 1 && departmentId > 2){
 			messages.add("存在しない部署です");
 		}
-		if(branchId != 1 && departmentId <=2){
+		if(branchId != 1 && departmentId < 2){
 			messages.add("存在しない部署です");
 		}
 		if(messages.size() == 0){

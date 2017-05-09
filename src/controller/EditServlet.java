@@ -11,8 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.Branch;
+import beans.Department;
 import beans.User;
 import service.AdminService;
+import service.TitleService;
 import service.UserService;
 
 @WebServlet(urlPatterns = { "/edit" })
@@ -21,9 +24,15 @@ public class EditServlet extends HttpServlet{
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException{
+		HttpSession session = request.getSession();
 		int id = Integer.parseInt(request.getParameter("userId"));
 		User editUser = new AdminService().getUser(id);
 		request.setAttribute("editUser", editUser);
+		List<Branch> branches = new TitleService().getBranches();
+		List<Department> departments = new TitleService().getDepartments();
+
+		session.setAttribute("branches", branches);
+		session.setAttribute("departments", departments);
 		request.getRequestDispatcher("edit.jsp").forward(request, response);
 	}
 
@@ -41,13 +50,7 @@ public class EditServlet extends HttpServlet{
 			user.setName(request.getParameter("name"));
 			user.setBranchId(request.getParameter("branchId"));
 			user.setDepartmentId(request.getParameter("departmentId"));
-			if(request.getParameter("password").length() == 0){
 
-				/*User editedUser = new AdminService().getUser(user.getId());
-				String formerPassword = editedUser.getPassword();
-
-				user.setPassword(formerPassword);*/
-			}
 			new UserService().update(user);
 			System.out.println(user.getPassword());
 

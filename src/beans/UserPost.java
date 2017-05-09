@@ -6,8 +6,8 @@ import java.sql.Timestamp;
 public class UserPost implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int id;
-	private int branchId;
-	private int departmentId;
+	private String branchId;
+	private String departmentId;
 	private int userId;
 	private String name;
 	private String title;
@@ -25,20 +25,20 @@ public class UserPost implements Serializable{
 	}
 
 
-	public int getBranchId() {
+	public String getBranchId() {
 		return branchId;
 	}
 
-	public void setBranchId(int branchId) {
+	public void setBranchId(String branchId) {
 		this.branchId = branchId;
 	}
 
 
-	public int getDepartmentId() {
+	public String getDepartmentId() {
 		return departmentId;
 	}
 
-	public void setDepartmentId(int departmentId) {
+	public void setDepartmentId(String departmentId) {
 		this.departmentId = departmentId;
 	}
 

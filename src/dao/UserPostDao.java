@@ -105,8 +105,8 @@ public class UserPostDao {
 		List<UserPost> ret = new ArrayList<UserPost>();
 		try{
 			while(rs.next()){
-				int branchId = rs.getInt("branch_id");
-				int departmentId = rs.getInt("department_id");
+				String branchId = rs.getString("branch_id");
+				String departmentId = rs.getString("department_id");
 				int id = rs.getInt("id");
 				int userId = rs.getInt("user_id");
 				String name = rs.getString("name");

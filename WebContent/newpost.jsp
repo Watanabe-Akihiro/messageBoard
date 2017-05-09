@@ -5,11 +5,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link href = "./css/style.css" rel = "stylesheet" type = "text/css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>新規投稿</title>
 </head>
 <body>
 <div class = "main-contents">
+<h1 style = "text-align: center;">新規投稿</h1>
 <c:if test = "${not empty errorMessages}">
 	<div class = "errorMessages">
 		<ul>
@@ -30,8 +32,13 @@
 		<label for = "text">本文(1000字以内):</label>
 		<textarea name = "text" cols ="50" rows = "10" class = "post-box"></textarea><br/>
 
-		<label for = "category">カテゴリー(10字以内):</label>
-		<input name = "category"><br/>
+		<label for = "category">カテゴリを選ぶ:</label>
+		<select name="category" size = "1">
+				<c:forEach items = "${selectCategories}" var = "category">
+				<option value="${category}"><c:out value = "${category}"/></option>
+			</c:forEach>
+		</select><br/>
+
 
 		<input type = "submit" value = "投稿">
 

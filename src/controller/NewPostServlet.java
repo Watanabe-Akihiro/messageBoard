@@ -21,16 +21,17 @@ public class NewPostServlet extends HttpServlet{
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException{
+
+
+		List<String> categories = new PostService().getCategories();
+		request.setAttribute("selectCategories", categories);
 		request.getRequestDispatcher("newpost.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession();
-
 		List<String> messages = new ArrayList<String>();
-		List<String> categories = new PostService().getCategories();
-		request.setAttribute("selectCategories", categories);
 		if(isValid(request, messages) == true){
 			User user = (User) session.getAttribute("loginUser");
 			Post post = new Post();
