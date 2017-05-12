@@ -62,7 +62,7 @@ public class SignupServlet extends HttpServlet{
 
 			request.setAttribute("signupUser", user);
 
-			session.setAttribute("errorMassages", messages);
+			session.setAttribute("errorMessages", messages);
 			request.getRequestDispatcher("signup.jsp").forward(request, response);
 		}
 	}
@@ -78,11 +78,11 @@ public class SignupServlet extends HttpServlet{
 		if(!password.equals(passwordConfirmation)){
 			messages.add("パスワードが一致しません");
 		}
-		if(password.length() >= 255 || password.length() <= 6 || !password.matches("[ -~｡-ﾟ]+$")){
+		if(password.length() >= 255 || password.length() < 6 || !password.matches("[ -~｡-ﾟ]+$")){
 			messages.add("不正なパスワードです");
 		}
 
-		if(loginId.length() >=20 || loginId.length() <= 6 || !loginId.matches("[0-9a-zA-Z_]+$")){
+		if(loginId.length() >=20 || loginId.length() < 6 || !loginId.matches("[0-9a-zA-Z_]+$")){
 			messages.add("不正なログインIDです");
 		}
 
@@ -97,7 +97,7 @@ public class SignupServlet extends HttpServlet{
 		if(branchId == 1 && departmentId > 2){
 			messages.add("存在しない部署です");
 		}
-		if(branchId != 1 && departmentId < 2){
+		if(branchId != 1 && departmentId <= 2){
 			messages.add("存在しない部署です");
 		}
 		if(messages.size() == 0){

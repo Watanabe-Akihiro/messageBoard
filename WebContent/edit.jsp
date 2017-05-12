@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class= "main-contents">
-
+<h1>ユーザー編集</h1>
 <form action = "edit" method = "post"><br/>
 	<input type ="hidden" name = "userId" value = "${editUser.id}">
 

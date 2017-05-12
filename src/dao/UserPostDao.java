@@ -86,6 +86,28 @@ public class UserPostDao {
 		}
 	}
 
+	public  String getOldestDate(Connection connection){
+		PreparedStatement ps = null;
+		try{
+			String sql = "SELECT MIN(created_at) FROM users_posts";
+			ps = connection.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+
+			String oldestDate = null;
+			while(rs.next()){
+				Timestamp createdAt = rs.getTimestamp("MIN(created_at)");
+				oldestDate = createdAt.toString();
+				//oldestDate.substring(0,10);
+				System.out.println(oldestDate);
+			}
+			return oldestDate;
+		}  catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally {
+			close (ps);
+		}
+	}
+
 	private List<String> toCategoriesList(ResultSet rs)
 		throws SQLException {
 		List<String> ret = new ArrayList<String>();

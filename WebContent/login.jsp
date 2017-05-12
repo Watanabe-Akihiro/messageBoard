@@ -10,8 +10,8 @@
 <title>ログイン</title>
 </head>
 <body>
-<div class = "main-contents">
-
+<div class = "login-main-contents">
+<h1>ログイン</h1>
 <c:if test = "${not empty errorMessages}">
 	<div class = "errorMessages">
 		<ul>

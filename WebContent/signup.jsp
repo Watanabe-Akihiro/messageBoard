@@ -10,16 +10,17 @@
 <title>新規ユーザー登録</title>
 </head>
 <body>
-<div class = "main contents">
-<c:if test = "${not empty errorMassages}">
-	<div class ="errorMassages">
+<div class = "main-contents">
+<h1>新規ユーザー登録</h1>
+<c:if test = "${not empty errorMessages}">
+	<div class ="errorMessages">
 		<ul>
-		<c:forEach items = "${errorMassages}" var = "message">
+		<c:forEach items = "${errorMessages}" var = "message">
 		<li><c:out value = "${message}"/>
 		</c:forEach>
 		</ul>
 	</div>
-	<c:remove var = "errorMassages" scope = "session"/>
+	<c:remove var = "errorMessages" scope = "session"/>
 	</c:if>
 
 	<form action = "signup" method = "post"><br/>

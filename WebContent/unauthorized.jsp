@@ -13,14 +13,14 @@
 <div class = "main-contents">
 
 	<c:if test = "${not empty errorMassages}">
-		<div class ="errorMassages">
+		<div class ="errorMessages">
 			<ul>
 				<c:forEach items = "${errorMassages}" var = "message">
 					<li><c:out value = "${message}"/>
 				</c:forEach>
 			</ul>
 		</div>
-	<c:remove var = "errorMassages" scope = "session"/>
+	<c:remove var = "errorMessages" scope = "session"/>
 	</c:if>
 
 <a href = "./">戻る</a>

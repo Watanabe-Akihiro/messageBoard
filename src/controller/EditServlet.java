@@ -24,17 +24,24 @@ public class EditServlet extends HttpServlet{
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException{
+		List<String> messages = new ArrayList<String>();
 		HttpSession session = request.getSession();
+		if(isValidURL(request, messages) == true){
 		int id = Integer.parseInt(request.getParameter("userId"));
 		User editUser = new AdminService().getUser(id);
-		request.setAttribute("editUser", editUser);
-		List<Branch> branches = new TitleService().getBranches();
-		List<Department> departments = new TitleService().getDepartments();
+			request.setAttribute("editUser", editUser);
+			List<Branch> branches = new TitleService().getBranches();
+			List<Department> departments = new TitleService().getDepartments();
+			session.setAttribute("branches", branches);
+			session.setAttribute("departments", departments);
+			request.getRequestDispatcher("edit.jsp").forward(request, response);
+			} else{
+				session.setAttribute("errorMessages", messages);
+				response.sendRedirect("admin");
+			}
+		}
 
-		session.setAttribute("branches", branches);
-		session.setAttribute("departments", departments);
-		request.getRequestDispatcher("edit.jsp").forward(request, response);
-	}
+
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException{
@@ -52,7 +59,6 @@ public class EditServlet extends HttpServlet{
 			user.setDepartmentId(request.getParameter("departmentId"));
 
 			new UserService().update(user);
-			System.out.println(user.getPassword());
 
 			String validationMessage = (String)user.getName() + "のユーザー情報は正常に更新されました";
 			session.setAttribute("validationMessage", validationMessage);
@@ -66,7 +72,7 @@ public class EditServlet extends HttpServlet{
 
 			request.setAttribute("user", user);
 
-			session.setAttribute("errorMassages", messages);
+			session.setAttribute("errorMessages", messages);
 			response.sendRedirect("admin");
 		}
 
@@ -78,6 +84,8 @@ public class EditServlet extends HttpServlet{
 		String password = request.getParameter("password");
 		String passwordConfirmation = request.getParameter("passwordConfirmation");
 		String name = request.getParameter("name");
+		int branchId = Integer.parseInt(request.getParameter("branchId"));
+		int departmentId = Integer.parseInt(request.getParameter("departmentId"));
 
 		if(!password.equals(passwordConfirmation)){
 			messages.add("パスワードが一致しません");
@@ -91,6 +99,29 @@ public class EditServlet extends HttpServlet{
 		}
 		if(name.length() >= 10){
 			messages.add("名前は10字以下です");
+		}
+		if(branchId == 1 && departmentId > 2){
+			messages.add("存在しない部署です");
+		}
+		if(branchId != 1 && departmentId <= 2){
+			messages.add("存在しない部署です");
+		}
+		if(messages.size() == 0){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean isValidURL(HttpServletRequest request, List<String> messages){
+
+		int userId = Integer.parseInt(request.getParameter("userId"));
+		String id = request.getParameter("userId");
+		User user = new AdminService().getUser(userId);
+
+
+		if(user == null || id == null){
+			messages.add("無効なURLです");
 		}
 		if(messages.size() == 0){
 			return true;

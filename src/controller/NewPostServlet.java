@@ -21,10 +21,10 @@ public class NewPostServlet extends HttpServlet{
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException{
-
+		HttpSession session = request.getSession();
 
 		List<String> categories = new PostService().getCategories();
-		request.setAttribute("selectCategories", categories);
+		session.setAttribute("selectCategories", categories);
 		request.getRequestDispatcher("newpost.jsp").forward(request, response);
 	}
 
@@ -32,14 +32,17 @@ public class NewPostServlet extends HttpServlet{
 			HttpServletResponse response) throws IOException, ServletException{
 		HttpSession session = request.getSession();
 		List<String> messages = new ArrayList<String>();
+		User user = (User) session.getAttribute("loginUser");
+		Post post = new Post();
 		if(isValid(request, messages) == true){
-			User user = (User) session.getAttribute("loginUser");
-			Post post = new Post();
-
 
 			post.setTitle(request.getParameter("title"));
 			post.setText(request.getParameter("text"));
-			post.setCategory(request.getParameter("category"));
+			if(!request.getParameter("newCategory").isEmpty()){
+			post.setCategory(request.getParameter("newCategory"));
+			}else {
+				post.setCategory(request.getParameter("category"));
+			}
 			post.setUserId(user.getId());
 
 
@@ -48,8 +51,13 @@ public class NewPostServlet extends HttpServlet{
 			response.sendRedirect("./");
 
 		} else {
+			post.setText(request.getParameter("text"));
+			post.setTitle(request.getParameter("title"));
+			request.setAttribute("leftText", post.getText());
+			request.setAttribute("leftTitle", post.getTitle());
 			session.setAttribute("errorMessages", messages);
 			request.getRequestDispatcher("newpost.jsp").forward(request, response);
+			//response.sendRedirect("newPost");
 		}
 	}
 
@@ -57,8 +65,8 @@ public class NewPostServlet extends HttpServlet{
 		String title = request.getParameter("title");
 		String text = request.getParameter("text");
 		String category = request.getParameter("category");
-
-		if(text.length() == 0 || text.length() == 0 || category.length() == 0 ) {
+		String newCategory = request.getParameter("newCategory");
+		if(text.length() == 0 || text.length() == 0 ||( category.length() == 0 && newCategory.length() == 0)) {
 			messages.add("必須項目が入力されていません");
 		}
 		if(title.length() >50){
@@ -67,9 +75,13 @@ public class NewPostServlet extends HttpServlet{
 		if(text.length() > 1000){
 			messages.add("本文は1000字以下です");
 		}
-		if(category.length() > 10){
-			messages.add("カテゴリーは10字以下です");
+		if(category.length() > 10 || newCategory.length() > 10){
+			messages.add("カテゴリは10字以下です");
 		}
+		if((!category.isEmpty() && !newCategory.isEmpty()) && !category.equals(newCategory) ){
+			messages.add("複数のカテゴリは選択できません");
+		}
+
 		if(messages.size() == 0){
 			return true;
 		} else {

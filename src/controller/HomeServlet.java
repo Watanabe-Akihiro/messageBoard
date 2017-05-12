@@ -38,11 +38,13 @@ public class HomeServlet extends HttpServlet{
 
 		String end;
 		String endParameter = request.getParameter("end");
-
+		;
 		if(startParameter == null){
-			start = "2000-1-1";
+			//start = "2000-1-1";
+			start = new PostService().getOldestDate();
 		}else if (startParameter.isEmpty()){
-			start = "2000-1-1";
+			//start = "2000-1-1";
+			start = new PostService().getOldestDate();
 		} else {
 			start = startParameter;
 		}

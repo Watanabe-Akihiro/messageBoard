@@ -18,25 +18,28 @@ import beans.User;
 public class LoginFilter implements Filter{
 	 public void doFilter(ServletRequest request, ServletResponse response,
 	            FilterChain chain) throws IOException, ServletException {
+		 HttpSession session = ((HttpServletRequest)request).getSession();
+			String target = ((HttpServletRequest)request).getServletPath();
+			String thisURI = ((HttpServletRequest)request).getRequestURI();
+			User user = (User) session.getAttribute("loginUser");
+
 
 	try{
-		HttpSession session = ((HttpServletRequest)request).getSession();
-		String target = ((HttpServletRequest)request).getServletPath();
-
-		User user = (User) session.getAttribute("loginUser");
-
-		if(!target.equals("/login") && user == null){
+		if(!thisURI.matches(".*.css") && (!target.equals("/login") && user == null)) {
 			String message = "ログインしてください";
 			session.setAttribute("errorMessages", message);
 			((HttpServletResponse)response).sendRedirect("login");
 			return;
-		}else{
-			chain.doFilter(request, response);
 		}
+
+		chain.doFilter(request, response);
+
+
 	 } catch (ServletException se){
 	    }catch (IOException e){
 	    }
 	}
+
 
     public void init(FilterConfig arg0) throws ServletException {
 

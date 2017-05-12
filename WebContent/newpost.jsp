@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class = "main-contents">
-<h1 style = "text-align: center;">新規投稿</h1>
+<h1>新規投稿</h1>
 <c:if test = "${not empty errorMessages}">
 	<div class = "errorMessages">
 		<ul>
@@ -27,13 +27,17 @@
 		<form action = "newPost" method = "post">
 
 		<label for = "title">件名(50字以内):</label>
-		<input name = "title"><br/>
+		<input name = "title" value = "${leftTitle}"><br/>
 
 		<label for = "text">本文(1000字以内):</label>
-		<textarea name = "text" cols ="50" rows = "10" class = "post-box"></textarea><br/>
+		<textarea name = "text" cols ="50" rows = "10" class = "post-box"><c:out value = "${leftText}"/></textarea><br/>
+
+		<label for = "newCategory">カテゴリを追加:</label>
+		<input name = "newCategory">（10字以内）
 
 		<label for = "category">カテゴリを選ぶ:</label>
 		<select name="category" size = "1">
+				<option value = ""></option>
 				<c:forEach items = "${selectCategories}" var = "category">
 				<option value="${category}"><c:out value = "${category}"/></option>
 			</c:forEach>

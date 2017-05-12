@@ -73,6 +73,26 @@ public class PostService {
 		 }
 	}
 
+	public String getOldestDate(){
+		Connection connection = null;
+		try{
+			connection = getConnection();
+
+			UserPostDao userPostDao = new UserPostDao();
+			String date = userPostDao.getOldestDate(connection);
+
+			commit(connection);
+			return date;
+		} catch(RuntimeException e){
+			 rollback(connection);
+			 throw e;
+		 } catch(Error e){
+			 throw e;
+		 } finally{
+			 close(connection);
+		 }
+	}
+
 
 	/*public List<UserPost> getPostByCategory(String category){
 		Connection connection = null;
