@@ -14,25 +14,39 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import beans.User;
-@WebFilter(description = "ログインフィルター", filterName = "loginFilter", urlPatterns = { "/*" })
-public class LoginFilter implements Filter{
+import service.AdminService;
+@WebFilter(filterName = "userCheckFilter", urlPatterns = { "/*" })
+public class UserCheckFilter implements Filter{
 	 public void doFilter(ServletRequest request, ServletResponse response,
 	            FilterChain chain) throws IOException, ServletException {
 		 HttpSession session = ((HttpServletRequest)request).getSession();
-			String target = ((HttpServletRequest)request).getServletPath();
-			String thisURI = ((HttpServletRequest)request).getRequestURI();
+			//String target = ((HttpServletRequest)request).getServletPath();
+			//String thisURI = ((HttpServletRequest)request).getRequestURI();
 			User user = (User) session.getAttribute("loginUser");
 
 
 	try{
-		if((!thisURI.matches(".*.css") && !target.equals("/login") && user == null)) {
-			String message = "ログインしてください";
+		if(user != null){
+			User checkedUser = new AdminService().getUser(user.getId());
+
+			if(checkedUser == null){
+			String message = "アカウントが存在しません";
 			session.setAttribute("errorMessages", message);
+			session.removeAttribute("loginUser");
 			((HttpServletResponse)response).sendRedirect("login");
 			return;
+			} else if(checkedUser.getIsActivated() == 1){
+				String message = "アカウントが停止されています";
+				session.setAttribute("errorMessages", message);
+				session.removeAttribute("loginUser");
+				((HttpServletResponse)response).sendRedirect("login");
+				return;
+			} else{
+				chain.doFilter(request, response);
+			}
+		} else{
+			chain.doFilter(request, response);
 		}
-
-		chain.doFilter(request, response);
 
 
 	 } catch (ServletException se){

@@ -24,6 +24,8 @@ function goDeleteCommentServlet(){
 		return false;
 	}
 }
+
+
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>ホーム</title>
@@ -33,21 +35,43 @@ function goDeleteCommentServlet(){
 	<div class = "header">
 	<c:if test = "${not empty loginUser}">
 	<a href = "newPost">新規投稿</a>
-	<a href = "admin">ユーザー管理（本社総務部専用）</a>
+	<c:if test = "${loginUser.branchId == '1' && loginUser.departmentId == '1' }">
+		<a href = "admin">ユーザー管理（本社総務部専用）</a>
+	</c:if>
+	<c:out value = "${loginUser.name}"/> がログイン中
 	<a href = "logout">ログアウト</a>
 	</c:if>
 	</div>
+	<c:if test = "${not empty errorMessages}">
+		<div class ="errorMessages">
+			<ul>
+				<c:forEach items = "${errorMessages}" var = "message">
+					<li><c:out value = "${message}"/>
+				</c:forEach>
+			</ul>
+		</div>
+	<c:remove var = "errorMessages" scope = "session"/>
+	</c:if>
+	<h1>ホーム</h1>
 	<form action="./" method = "Get">
 
 		カテゴリ:<select name="category" size = "1">
-			<option value = "">全て</option>
+		<c:if test = "${selectedCategory == null}">
+			<option value = "" selected >全て</option>
 			<c:forEach items = "${categories}" var = "category">
 				<option value="${category}"><c:out value = "${category}"/></option>
 			</c:forEach>
+			</c:if>
+		<c:if test = "${selectedCategory != null }">
+			<option value = "">全て</option>
+			<c:forEach items = "${categories}" var = "category">
+				<option value="${category}" <c:if test = "${selectedCategory.equals(category)}">selected</c:if>><c:out value = "${category}"/></option>
+			</c:forEach>
+			</c:if>
 		</select><br/>
 
-		日付:<input type = "date" name = "start">から<br/>
-		<input type = "date" name = "end">まで
+		日付:<input type = "date" name = "start" value = "${start}">から<br/>
+		<input type = "date" name = "end" value = "${end}">まで
 
 		<input type = "submit" value = "絞込み">
 	</form>
@@ -68,7 +92,11 @@ function goDeleteCommentServlet(){
 			<div class = "post">
 				<div class = "name">投稿者：<c:out value = "${post.name}"/></div>
 				<div class = "title">件名：<c:out value = "${post.title}"/></div>
-				<div class = "text">本文：<c:out value = "${post.text}"/></div>
+				<div class = "text">
+				<c:forEach var = "newLine"  items="${fn:split(post.text,'
+							')}" >
+							${newLine}<br/>
+							</c:forEach></div>
 				<div class = "category">カテゴリー：<c:out value = "${post.category}"/></div>
 				<div class = "date">投稿日時：<fmt:formatDate value = "${post.createdAt}" pattern = "yyyy/MM/dd HH:mm:ss"/></div>
 
@@ -92,7 +120,7 @@ function goDeleteCommentServlet(){
 						<div class = "comment">
 							<div class = "name">投稿者：<c:out value = "${comment.name}"/></div>
 
-							<div class = "text">本文：<br/>
+							<div class = "text">
 							<c:forEach var = "newLine"  items="${fn:split(comment.text,'
 							')}" >
 							${newLine}<br/>
@@ -122,12 +150,21 @@ function goDeleteCommentServlet(){
 
 			<form action = "comment" method = "post">
 				<input type ="hidden" name = "postId" value = "${post.id}">
-				<textarea name = "text"cols ="50" rows = "5" class = "comment-box"><c:out value = "${leftComment.text}" /></textarea><br/>
+				<c:if test = "${leftComment.postId != post.id}">
+				<textarea name = "text" cols ="50" rows = "5" class = "comment-box" id = "comment-box"></textarea><br/>
+				</c:if>
+				<c:if test = "${leftComment.postId == post.id}">
+				<textarea name = "text" cols ="50" rows = "5" class = "comment-box" id = "comment-box">
+				<c:out value = "${leftComment.text}" />
+				</textarea><br/>
+				</c:if>
 				<input type = "submit" value = "コメント">(500字以内)
 			</form>
-			<c:remove var = "leftComment" scope = "session"/>
+
+
 		</div>
 		</c:forEach>
+		<c:remove var = "leftComment" scope = "session"/>
 	</div>
 
 </div>

@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
+
 import beans.Post;
 import beans.User;
 import service.PostService;
@@ -66,8 +68,14 @@ public class NewPostServlet extends HttpServlet{
 		String text = request.getParameter("text");
 		String category = request.getParameter("category");
 		String newCategory = request.getParameter("newCategory");
-		if(text.length() == 0 || text.length() == 0 ||( category.length() == 0 && newCategory.length() == 0)) {
-			messages.add("必須項目が入力されていません");
+		if(StringUtils.isBlank(text)) {
+			messages.add("本文が入力されていません");
+		}
+		if(StringUtils.isBlank(title)){
+			messages.add("件名が入力されていません");
+		}
+		if(StringUtils.isBlank(category) && StringUtils.isBlank(newCategory)){
+			messages.add("カテゴリーが入力されていません");
 		}
 		if(title.length() >50){
 			messages.add("件名は50字以下です");

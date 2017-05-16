@@ -96,8 +96,11 @@ public class UserPostDao {
 			String oldestDate = null;
 			while(rs.next()){
 				Timestamp createdAt = rs.getTimestamp("MIN(created_at)");
-				oldestDate = createdAt.toString();
-				//oldestDate.substring(0,10);
+				if(createdAt == null){
+					oldestDate = "2000-01-01";
+				} else {
+					oldestDate = createdAt.toString();
+				}
 				System.out.println(oldestDate);
 			}
 			return oldestDate;

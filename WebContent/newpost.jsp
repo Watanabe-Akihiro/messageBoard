@@ -8,6 +8,10 @@
 <link href = "./css/style.css" rel = "stylesheet" type = "text/css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>新規投稿</title>
+
+<script type="text/javascript">
+
+</script>
 </head>
 <body>
 <div class = "main-contents">
@@ -30,7 +34,7 @@
 		<input name = "title" value = "${leftTitle}"><br/>
 
 		<label for = "text">本文(1000字以内):</label>
-		<textarea name = "text" cols ="50" rows = "10" class = "post-box"><c:out value = "${leftText}"/></textarea><br/>
+		<textarea name = "text"  cols ="50" rows = "10" class = "post-box"><c:out value = "${leftText}"/></textarea><br/>
 
 		<label for = "newCategory">カテゴリを追加:</label>
 		<input name = "newCategory">（10字以内）

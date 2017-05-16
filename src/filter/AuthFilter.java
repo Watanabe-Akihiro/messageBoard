@@ -28,9 +28,9 @@ public class AuthFilter implements Filter{
 			if((user.getBranchId()).equals("1") && (user.getDepartmentId()).equals("1")){
 				chain.doFilter(request, response);
 			} else{
-				String message = "アクセス権限がありません";
-				session.setAttribute("errorMassages", message);
-				((HttpServletResponse)response).sendRedirect("unauthorized");
+				String message = "指定されたURLへのアクセス権限がありません";
+				session.setAttribute("errorMessages", message);
+				((HttpServletResponse)response).sendRedirect("./");
 				return;
 			}
 		} else {

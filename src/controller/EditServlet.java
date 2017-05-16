@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
+
 import beans.Branch;
 import beans.Department;
 import beans.User;
@@ -27,13 +29,18 @@ public class EditServlet extends HttpServlet{
 		List<String> messages = new ArrayList<String>();
 		HttpSession session = request.getSession();
 		if(isValidURL(request, messages) == true){
-		int id = Integer.parseInt(request.getParameter("userId"));
-		User editUser = new AdminService().getUser(id);
+			int id = Integer.parseInt(request.getParameter("userId"));
+			User editUser = new AdminService().getUser(id);
 			request.setAttribute("editUser", editUser);
 			List<Branch> branches = new TitleService().getBranches();
 			List<Department> departments = new TitleService().getDepartments();
+			Branch branch = new TitleService().getBranch(Integer.parseInt(editUser.getBranchId()));
+			Department department = new TitleService().getDepartment(Integer.parseInt(editUser.getDepartmentId()));
 			session.setAttribute("branches", branches);
 			session.setAttribute("departments", departments);
+			request.setAttribute("editBranch", branch);
+			request.setAttribute("editDepartment", department);
+
 			request.getRequestDispatcher("edit.jsp").forward(request, response);
 			} else{
 				session.setAttribute("errorMessages", messages);
@@ -115,18 +122,32 @@ public class EditServlet extends HttpServlet{
 
 	private boolean isValidURL(HttpServletRequest request, List<String> messages){
 
-		int userId = Integer.parseInt(request.getParameter("userId"));
-		String id = request.getParameter("userId");
-		User user = new AdminService().getUser(userId);
+		if(StringUtils.isEmpty(request.getParameter("userId")) || !request.getParameter("userId").matches("\\d{1,9}")){
+			messages.add("不正なユーザーIDです");
+		} else{
+			int userId = Integer.parseInt(request.getParameter("userId"));
+			User user = new AdminService().getUser(userId);
+			if(user == null){
 
+				messages.add("ユーザーが存在しません");
+			}
 
-		if(user == null || id == null){
-			messages.add("無効なURLです");
 		}
+
+
 		if(messages.size() == 0){
 			return true;
 		} else {
 			return false;
 		}
 	}
-}
+
+	/*public boolean isNumber(String num) {
+	    try {
+	    	Integer.parseInt(num);
+	        return true;
+	        } catch (NumberFormatException e) {
+	        	return false;
+	        }
+	    }*/
+	}

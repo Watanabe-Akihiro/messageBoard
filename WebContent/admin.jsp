@@ -59,7 +59,7 @@
 	<c:remove var = "validationMessage" scope = "session"/>
 	</c:if>
 
-<table border = "2">
+<table border = "2" class = "table">
 
 	<tr>
 		<th>ログインID</th>
@@ -67,8 +67,8 @@
 		<th>支店</th>
 		<th>部署</th>
 		<th>編集</th>
-		<th>状態の変更</th>
-		<th>ユーザーの削除</th>
+		<th>停止</th>
+		<th>削除</th>
 	</tr>
 
 <c:forEach items = "${allUsers}" var = "user">
@@ -85,8 +85,10 @@
 		</td>
 
 		<td>
+
 			<form action = "admin" method = "post">
 				<input type ="hidden" name = "userId" value = "${user.id}">
+				<c:if test = "${user.id != loginUser.id }">
 				<c:if test = "${user.isActivated == 0}">
 						<input type = "hidden" name = "isActivated" value = "1">
 						<input type = "submit" value = "停止"   onclick = "return disp1()">
@@ -95,13 +97,17 @@
 					<input type = "hidden" name = "isActivated" value = "0">
 					<input type = "submit"  value = "復活"   onclick = "return disp2()">
 				</c:if>
+				</c:if>
 			</form>
+
 
 		</td>
 		<td>
 		<form action = "delete" method = "post" onSubmit = "return goDeleteServlet()">
 				<input type ="hidden" name = "deletedId" value = "${user.id}">
+				<c:if test = "${user.id != loginUser.id }">
 				<input type = "submit" value = "削除" >
+				</c:if>
 		</form>
 		</td>
 	</tr>

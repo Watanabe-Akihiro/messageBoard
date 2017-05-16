@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
+
 import beans.Comment;
 import beans.User;
 import service.CommentService;
@@ -38,8 +40,9 @@ public class CommentServlet extends HttpServlet{
 
 		} else {
 			comment.setText(request.getParameter("text"));
-			session.setAttribute("leftComment", comment);
+			comment.setPostId(Integer.parseInt(request.getParameter("postId")));
 
+			session.setAttribute("leftComment", comment);
 			session.setAttribute("commentError", messages);
 			response.sendRedirect("./");
 		}
@@ -49,7 +52,7 @@ public class CommentServlet extends HttpServlet{
 
 		String text = request.getParameter("text");
 
-		if(text.length() == 0) {
+		if(StringUtils.isBlank(text)) {
 			messages.add("コメントが入力されていません");
 		}
 		if(text.length() > 500){

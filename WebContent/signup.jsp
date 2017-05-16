@@ -29,10 +29,10 @@
 	<input name = "loginId" value = "${signupUser.loginId}" />(半角英数字6～20字)<br/>
 
 	<label for = "password">パスワード</label>
-	<input name = "password"/>(記号含む半角文字6～255字)<br/>
+	<input name = "password" type = "password"/>(記号含む半角文字6～255字)<br/>
 
 	<label for = "passwordConfirmation">パスワードの確認</label>
-	<input name = "passwordConfirmation"/><br/>
+	<input name = "passwordConfirmation" type = "password"/><br/>
 
 	<label for = "name">名前</label>
 	<input name = "name" value = "${signupUser.name }"/>(10字以内)<br/>

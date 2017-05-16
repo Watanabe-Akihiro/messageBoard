@@ -12,10 +12,10 @@
 <body>
 <div class = "main-contents">
 
-	<c:if test = "${not empty errorMassages}">
+	<c:if test = "${not empty errorMessages}">
 		<div class ="errorMessages">
 			<ul>
-				<c:forEach items = "${errorMassages}" var = "message">
+				<c:forEach items = "${errorMessages}" var = "message">
 					<li><c:out value = "${message}"/>
 				</c:forEach>
 			</ul>

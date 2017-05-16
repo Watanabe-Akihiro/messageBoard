@@ -35,7 +35,7 @@ public class TitleDao {
 	public Branch getBranch(Connection connection, int id){
 		PreparedStatement ps = null;
 		try{
-			String sql = "SELECT * FROM branches INNER JOIN users ON branches.id = branch_jd WHERE branch_id = ? ";
+			String sql = "SELECT DISTINCT branches.name, branches.id FROM branches INNER JOIN users ON branches.id = branch_id WHERE branches.id = ? ";
 			ps = connection.prepareStatement(sql);
 
 			ps.setInt(1, id);
@@ -97,7 +97,7 @@ public class TitleDao {
 	public Department getDepartment(Connection connection, int id){
 		PreparedStatement ps = null;
 		try{
-			String sql = "SELECT * FROM departments INNER JOIN users ON departments.id = department_jd WHERE department_id = ? ";
+			String sql = "SELECT DISTINCT departments.name, departments.id FROM departments INNER JOIN users ON departments.id = department_id WHERE departments.id = ? ";
 			ps = connection.prepareStatement(sql);
 
 			ps.setInt(1, id);

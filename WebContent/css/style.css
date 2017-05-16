@@ -28,9 +28,10 @@ body{
     box-shadow: 1px 1px 1px;
     border-radius: 5px;
     padding:8px;
+    word-wrap: break-word;
 }
 .title{
-	margin-bottom:20px
+	margin-bottom:20px;
 }
 .name{
 	font-weight: bold;
@@ -40,10 +41,12 @@ body{
 
 .text{
 	margin-bottom: 20px;
+	word-wrap: break-word;
 }
 
 .category{
 	margin-bottom: 5px;
+
 }
 
 
@@ -66,11 +69,14 @@ body{
 	list-style:none;
 	color:red;
 }
+
 .main-contents{
-	margin-left:15px;
+	margin-left: 40px;
 }h1{
-	text-align:center;
 	font-size:25px;
+}.header{
+	margin-top:10px;
+	margin-bottom:10px;
 }
 
 label[for = "title"]{
@@ -84,3 +90,8 @@ label[for = "category"]{
 label[for = "newCategory"]{
 	margin-left:21px;
 }
+ .table{
+	background-color:white;
+	box-shadow: 1px 1px 1px;
+
+ }

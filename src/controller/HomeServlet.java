@@ -12,11 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
+
 import beans.UserComment;
 import beans.UserPost;
 import service.CommentService;
 import service.PostService;
-
 
 @WebServlet(urlPatterns = {"/index.jsp"})
 public class HomeServlet extends HttpServlet{
@@ -29,6 +30,7 @@ public class HomeServlet extends HttpServlet{
 		List<String> categories = new PostService().getCategories();
 		request.setAttribute("categories", categories);
 		String category = request.getParameter("category");
+		request.setAttribute("selectedCategory", category);
 
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -38,25 +40,35 @@ public class HomeServlet extends HttpServlet{
 
 		String end;
 		String endParameter = request.getParameter("end");
-		;
-		if(startParameter == null){
-			//start = "2000-1-1";
-			start = new PostService().getOldestDate();
-		}else if (startParameter.isEmpty()){
-			//start = "2000-1-1";
-			start = new PostService().getOldestDate();
-		} else {
+
+		String oldestDate;
+		if(new PostService().getOldestDate() == null){
+			oldestDate = "2000-01-01";
+		}else{
+			oldestDate = new PostService().getOldestDate();
+		}
+
+		if(StringUtils.isEmpty(startParameter)){
+			start = oldestDate;
+		} else if(!startParameter.matches("[0-9]{4}[-][0-9]{2}[-][0-9]{2}")){
+			start = oldestDate;
+		}else{
 			start = startParameter;
 		}
 
-		if(endParameter == null){
+
+		if(StringUtils.isEmpty(endParameter)){
 			end = sdf.format(date).toString();
-		}else if (endParameter.isEmpty()){
+		} else if(!endParameter.matches("[0-9]{4}[-][0-9]{2}[-][0-9]{2}")){
 			end = sdf.format(date).toString();
-		} else {
+		}else{
 			end = endParameter;
 		}
 
+		String trimmedEnd = end.substring(0, 10);
+		String trimmedStart = start.substring(0, 10);
+		request.setAttribute("end", trimmedEnd);
+		request.setAttribute("start", trimmedStart);
 
 		List<UserPost> posts = new PostService().getPost(category, start, end);
 		request.setAttribute("posts", posts);
@@ -69,12 +81,6 @@ public class HomeServlet extends HttpServlet{
 		}else{
 		request.getRequestDispatcher("home.jsp").forward(request, response);
 		}
-	}
-
-
-
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response)throws IOException, ServletException{
 	}
 
 
