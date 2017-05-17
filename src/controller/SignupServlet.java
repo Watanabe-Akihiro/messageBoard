@@ -75,6 +75,10 @@ public class SignupServlet extends HttpServlet{
 		int branchId = Integer.parseInt(request.getParameter("branchId"));
 		int departmentId = Integer.parseInt(request.getParameter("departmentId"));
 
+		if(new UserService().getUser(loginId) != null){
+			messages.add("すでに使用されているログインIDです");
+		}
+
 		if(!password.equals(passwordConfirmation)){
 			messages.add("パスワードが一致しません");
 		}
@@ -95,10 +99,10 @@ public class SignupServlet extends HttpServlet{
 		}
 
 		if(branchId == 1 && departmentId > 2){
-			messages.add("存在しない部署です");
+			messages.add("支店と部署が一致しません");
 		}
 		if(branchId != 1 && departmentId <= 2){
-			messages.add("存在しない部署です");
+			messages.add("支店と部署が一致しません");
 		}
 		if(messages.size() == 0){
 			return true;

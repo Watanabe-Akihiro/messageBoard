@@ -14,6 +14,7 @@
 </script>
 </head>
 <body>
+
 <div class = "main-contents">
 <h1>新規投稿</h1>
 <c:if test = "${not empty errorMessages}">
@@ -30,16 +31,16 @@
 	<div class = "form-area">
 		<form action = "newPost" method = "post">
 
-		<label for = "title">件名(50字以内):</label>
-		<input name = "title" value = "${leftTitle}"><br/>
+		<label for = "title">件名(50字以内):</label><br/>
+		<input name = "title" style = "margin-bottom:10px;" value = "${leftTitle}"><br/>
 
-		<label for = "text">本文(1000字以内):</label>
+		<label for = "text">本文(1000字以内):</label><br/>
 		<textarea name = "text"  cols ="50" rows = "10" class = "post-box"><c:out value = "${leftText}"/></textarea><br/>
 
-		<label for = "newCategory">カテゴリを追加:</label>
-		<input name = "newCategory">（10字以内）
+		<label for = "newCategory">カテゴリを追加(10字以内):</label><br/>
+		<input name = "newCategory"><br/>
 
-		<label for = "category">カテゴリを選ぶ:</label>
+		<label for = "category">カテゴリを選ぶ:</label><br/>
 		<select name="category" size = "1">
 				<option value = ""></option>
 				<c:forEach items = "${selectCategories}" var = "category">
@@ -48,7 +49,7 @@
 		</select><br/>
 
 
-		<input type = "submit" value = "投稿">
+		<input type = "submit" value = "投稿" class = "register">
 
 		</form>
 	</div>

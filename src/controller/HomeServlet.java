@@ -54,6 +54,7 @@ public class HomeServlet extends HttpServlet{
 			start = oldestDate;
 		}else{
 			start = startParameter;
+			request.setAttribute("start", start);
 		}
 
 
@@ -63,12 +64,13 @@ public class HomeServlet extends HttpServlet{
 			end = sdf.format(date).toString();
 		}else{
 			end = endParameter;
+			request.setAttribute("end", end);
 		}
 
-		String trimmedEnd = end.substring(0, 10);
+		/*String trimmedEnd = end.substring(0, 10);
 		String trimmedStart = start.substring(0, 10);
 		request.setAttribute("end", trimmedEnd);
-		request.setAttribute("start", trimmedStart);
+		request.setAttribute("start", trimmedStart);*/
 
 		List<UserPost> posts = new PostService().getPost(category, start, end);
 		request.setAttribute("posts", posts);

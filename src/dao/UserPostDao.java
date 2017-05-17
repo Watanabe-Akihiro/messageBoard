@@ -89,7 +89,7 @@ public class UserPostDao {
 	public  String getOldestDate(Connection connection){
 		PreparedStatement ps = null;
 		try{
-			String sql = "SELECT MIN(created_at) FROM users_posts";
+			String sql = "SELECT MIN(created_at) FROM users_posts HAVING MIN(created_at)";
 			ps = connection.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 

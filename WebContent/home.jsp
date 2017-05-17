@@ -25,7 +25,6 @@ function goDeleteCommentServlet(){
 	}
 }
 
-
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>ホーム</title>
@@ -38,8 +37,8 @@ function goDeleteCommentServlet(){
 	<c:if test = "${loginUser.branchId == '1' && loginUser.departmentId == '1' }">
 		<a href = "admin">ユーザー管理（本社総務部専用）</a>
 	</c:if>
-	<c:out value = "${loginUser.name}"/> がログイン中
-	<a href = "logout">ログアウト</a>
+	<a href = "logout" class = "logout">ログアウト</a>
+	<p class ="loggedIn"><c:out value = "${loginUser.name}"/> がログイン中</p>
 	</c:if>
 	</div>
 	<c:if test = "${not empty errorMessages}">
@@ -57,20 +56,20 @@ function goDeleteCommentServlet(){
 
 		カテゴリ:<select name="category" size = "1">
 		<c:if test = "${selectedCategory == null}">
-			<option value = "" selected >全て</option>
+			<option value = "" selected ></option>
 			<c:forEach items = "${categories}" var = "category">
 				<option value="${category}"><c:out value = "${category}"/></option>
 			</c:forEach>
 			</c:if>
 		<c:if test = "${selectedCategory != null }">
-			<option value = "">全て</option>
+			<option value = ""></option>
 			<c:forEach items = "${categories}" var = "category">
 				<option value="${category}" <c:if test = "${selectedCategory.equals(category)}">selected</c:if>><c:out value = "${category}"/></option>
 			</c:forEach>
 			</c:if>
-		</select><br/>
+		</select>
 
-		日付:<input type = "date" name = "start" value = "${start}">から<br/>
+		日付:<input type = "date" name = "start" value = "${start}">から
 		<input type = "date" name = "end" value = "${end}">まで
 
 		<input type = "submit" value = "絞込み">
@@ -154,13 +153,10 @@ function goDeleteCommentServlet(){
 				<textarea name = "text" cols ="50" rows = "5" class = "comment-box" id = "comment-box"></textarea><br/>
 				</c:if>
 				<c:if test = "${leftComment.postId == post.id}">
-				<textarea name = "text" cols ="50" rows = "5" class = "comment-box" id = "comment-box">
-				<c:out value = "${leftComment.text}" />
-				</textarea><br/>
+				<textarea name = "text" cols ="50" rows = "5"  class = "comment-box" id = "comment-box"><c:out value = "${leftComment.text}" /></textarea><br/>
 				</c:if>
 				<input type = "submit" value = "コメント">(500字以内)
 			</form>
-
 
 		</div>
 		</c:forEach>

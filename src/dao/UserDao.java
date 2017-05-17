@@ -170,6 +170,32 @@ public class UserDao {
 		}
 	}
 
+	public User getUser(Connection connection, String loginId){
+		PreparedStatement ps = null;
+		try{
+			String sql = "SELECT * FROM users WHERE login_id = ?";
+			ps = connection.prepareStatement(sql);
+
+			ps.setString(1, loginId);
+
+			ResultSet rs = ps.executeQuery();
+
+			List<User> userList = toUserList(rs);
+
+			if(userList.isEmpty() == true){
+				return null;
+			} else if(userList.size() >= 2){
+				throw new IllegalStateException("userList.size() >= 2");
+			} else{
+				return userList.get(0);
+			}
+		} catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally{
+			close(ps);
+		}
+	}
+
 	public void update(Connection connection, User user){
 		PreparedStatement ps = null;
 

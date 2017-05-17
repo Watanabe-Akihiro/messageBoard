@@ -69,9 +69,15 @@ body{
 	list-style:none;
 	color:red;
 }
-
+.loggedIn{
+	font-weight: bold;
+}
+.logout{
+	float:right;
+	margin-right:20px;
+}
 .main-contents{
-	margin-left: 40px;
+	margin-left: 70px;
 }h1{
 	font-size:25px;
 }.header{
@@ -79,19 +85,17 @@ body{
 	margin-bottom:10px;
 }
 
-label[for = "title"]{
-	margin-left:20px;
-}
-
-label[for = "category"]{
-	margin-left:22px;
-}
-
-label[for = "newCategory"]{
-	margin-left:21px;
-}
  .table{
 	background-color:white;
 	box-shadow: 1px 1px 1px;
-
  }
+.register{
+	margin-top:10px;
+}
+.table{
+
+}th{
+	padding:10px 5px 10px 5px;
+}td{
+	padding:10px 5px 10px 5px;
+}

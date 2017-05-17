@@ -25,33 +25,33 @@
 
 	<form action = "signup" method = "post"><br/>
 
-	<label for = "loginId">ログインID</label>
-	<input name = "loginId" value = "${signupUser.loginId}" />(半角英数字6～20字)<br/>
+	<label for = "loginId">ログインID(半角英数字6～20字)</label><br/>
+	<input name = "loginId" value = "${signupUser.loginId}" /><br/>
 
-	<label for = "password">パスワード</label>
-	<input name = "password" type = "password"/>(記号含む半角文字6～255字)<br/>
+	<label for = "password">パスワード(記号含む半角文字6～255字)</label><br/>
+	<input name = "password" type = "password"/><br/>
 
-	<label for = "passwordConfirmation">パスワードの確認</label>
+	<label for = "passwordConfirmation">パスワードの確認</label><br/>
 	<input name = "passwordConfirmation" type = "password"/><br/>
 
-	<label for = "name">名前</label>
-	<input name = "name" value = "${signupUser.name }"/>(10字以内)<br/>
+	<label for = "name">名前(10字以内)</label><br/>
+	<input name = "name" value = "${signupUser.name }"/><br/>
 
-	<label for = "branchId">支店</label>
+	<label for = "branchId">支店</label><br/>
 	<select name="branchId" size = "1">
 		<c:forEach items = "${branches}" var = "branch">
-			<option value="${branch.id}"><c:out value = "${branch.name}"/></option>
+			<option value="${branch.id}" <c:if test = "${signupUser.branchId == branch.id}">selected</c:if>><c:out value = "${branch.name}"/></option>
 		</c:forEach>
 	</select><br/>
 
-	<label for = "departmentId">部署</label>
+	<label for = "departmentId">部署</label><br/>
 	<select name="departmentId" size = "1">
 		<c:forEach items = "${departments}" var = "department">
-			<option value="${department.id}"><c:out value = "${department.name}"/></option>
+			<option value="${department.id}"<c:if test = "${signupUser.departmentId == department.id}">selected</c:if>><c:out value = "${department.name}"/></option>
 		</c:forEach>
 	</select><br/>
 
-	<input type = "submit" value = "登録"/><br/>
+	<div class ="register"><input type = "submit" value = "登録"/></div><br/>
 	<a href = "admin">戻る</a>
 
 </form>

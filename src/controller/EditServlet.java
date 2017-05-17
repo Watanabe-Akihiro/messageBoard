@@ -56,31 +56,25 @@ public class EditServlet extends HttpServlet{
 		HttpSession session = request.getSession();
 
 		User user = new User();
+		user.setId(Integer.parseInt(request.getParameter("userId")));
+		user.setLoginId(request.getParameter("loginId"));
+		user.setPassword(request.getParameter("password"));
+		user.setName(request.getParameter("name"));
+		user.setBranchId(request.getParameter("branchId"));
+		user.setDepartmentId(request.getParameter("departmentId"));
 
 		if(isValid(request, messages) == true){
-			user.setId(Integer.parseInt(request.getParameter("userId")));
-			user.setLoginId(request.getParameter("loginId"));
-			user.setPassword(request.getParameter("password"));
-			user.setName(request.getParameter("name"));
-			user.setBranchId(request.getParameter("branchId"));
-			user.setDepartmentId(request.getParameter("departmentId"));
 
 			new UserService().update(user);
-
 			String validationMessage = (String)user.getName() + "のユーザー情報は正常に更新されました";
 			session.setAttribute("validationMessage", validationMessage);
 			response.sendRedirect("admin");
 
 		} else {
-			user.setLoginId(request.getParameter("loginId"));
-			user.setName(request.getParameter("name"));
-			user.setBranchId(request.getParameter("branchId"));
-			user.setDepartmentId(request.getParameter("departmentId"));
 
-			request.setAttribute("user", user);
-
+			request.setAttribute("editUser", user);
 			session.setAttribute("errorMessages", messages);
-			response.sendRedirect("admin");
+			request.getRequestDispatcher("edit.jsp").forward(request, response);
 		}
 
 	}
@@ -108,10 +102,10 @@ public class EditServlet extends HttpServlet{
 			messages.add("名前は10字以下です");
 		}
 		if(branchId == 1 && departmentId > 2){
-			messages.add("存在しない部署です");
+			messages.add("支店と部署が一致しません");
 		}
 		if(branchId != 1 && departmentId <= 2){
-			messages.add("存在しない部署です");
+			messages.add("支店と部署が一致しません");
 		}
 		if(messages.size() == 0){
 			return true;

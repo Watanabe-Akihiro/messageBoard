@@ -40,6 +40,7 @@
 <div class = "main-contents">
 <div class = "header">
 <a href = "signup">新規ユーザー登録</a>
+<a href = "./">戻る</a>
 </div>
 <h1>ユーザー管理</h1>
 	<c:if test = "${not empty errorMessages}">
@@ -113,7 +114,7 @@
 	</tr>
 </c:forEach>
 </table>
-<a href = "./">戻る</a>
+
 
 </div>
 </body>
